@@ -9,9 +9,10 @@ const UserRoute = require("./Route/User");
 const User = require("./Model/User");
 //middleware
 app.use(bodyparser.json({ extended: false }));
-app.use("/", (req, res, next) => {
-  console.log("req", req.body);
-});
+// app.use("/", (req, res, next) => {
+//   console.log("req", req.body);
+//   next();
+// });
 app.use(cors());
 app.use(UserRoute);
 
