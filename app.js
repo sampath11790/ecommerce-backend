@@ -9,7 +9,8 @@ const CartRoute = require("./Route/Cart");
 const AdminRoute = require("./Route/Admin");
 //models
 const User = require("./Model/User");
-// const Image = require("./Model/Image");
+const Cart = require("./Model/Cart");
+const Cartitem = require("./Model/cartItem");
 const Product = require("./Model/Producet");
 
 //middleware
@@ -27,8 +28,11 @@ app.use((req, res, next) => {
   res.status(404).json({ error: "page note found" });
 });
 //association
-// Product.hasMany(Image);
-// Image.belongsTo(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+
+Cart.belongsToMany(Product, { through: Cartitem });
+Product.belongsToMany(Cart, { through: Cartitem });
 DB.sync()
   .then(() => {
     app.listen(process.env.PORT, () => {
