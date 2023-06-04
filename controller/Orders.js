@@ -18,16 +18,16 @@ exports.getOrder = async (req, res, next) => {
   }
 };
 exports.postOrder = async (req, res, next) => {
-  // console.log("postorders");
+  //creating trnsaction
   const t = await Sequelize.transaction();
   try {
+    //fetching user caty and product
     const cart = await req.user.getCart({ transaction: t });
     const products = await cart.getProducts({ transaction: t });
-    // const Totalamount = products.reduce((acc, cur) => {
-    //   return acc + cur.price * cur.cartitem.TotalQty;
-    // }, 0);
+
+    //creating oder id with zeno amount
     let totalAmount = 0;
-    // console.log("totalamount", Totalamount);
+
     const order = await req.user.createOrder(
       { Totalamount: totalAmount },
       { transaction: t }
@@ -35,6 +35,7 @@ exports.postOrder = async (req, res, next) => {
 
     // await order.addProducts(products, { transaction: t });
 
+    //creating each product with its qty and sum total amount
     for (const product of products) {
       await order.addProducts(product, {
         through: { TotalQty: product.cartitem.TotalQty },
@@ -43,16 +44,18 @@ exports.postOrder = async (req, res, next) => {
       totalAmount += product.price * product.cartitem.TotalQty;
     }
 
+    //adding amount in to orderid
     order.Totalamount = totalAmount;
-
+    //save changes
     await order.save({ transaction: t });
 
+    //now cart is no more needed  so delete
     await cart.destroy({ transaction: t });
-
+    //once all completed save
     await t.commit();
     res.json({ message: "Order created successfully" });
   } catch (err) {
-    // console.log(err);
+    //else rollback previous state
     await t.rollback();
     console.log(err);
     res.json({ error: "Failed to create order" });
