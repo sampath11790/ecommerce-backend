@@ -8,6 +8,18 @@ const UserRoute = require("./Route/User");
 const CartRoute = require("./Route/Cart");
 const AdminRoute = require("./Route/Admin");
 const OrderRoute = require("./Route/Orders");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const fs = require("fs");
+const path = require("path");
+
+const accesslogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  {
+    flags: "a",
+  }
+);
+app.use(morgan("combined", { stream: accesslogStream }));
 //models
 const User = require("./Model/User");
 const Cart = require("./Model/Cart");
@@ -17,10 +29,12 @@ const Order = require("./Model/Orders");
 const Orderitem = require("./Model/OrderItem");
 //middleware
 app.use(bodyparser.json({ extended: false }));
+
 // app.use("/", (req, res, next) => {
 //   console.log("req", req.body);
 //   next();
 // });
+app.use(helmet());
 app.use(cors());
 app.use(UserRoute);
 app.use(CartRoute);

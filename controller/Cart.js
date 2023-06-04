@@ -34,7 +34,7 @@ exports.postCart = async (req, res, next) => {
     }
     res.json({ message: "success" });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.json({ error: "failed" });
   }
 };

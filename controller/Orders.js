@@ -13,7 +13,7 @@ exports.getOrder = async (req, res, next) => {
     // const products = await orders.getProducts();
     res.json(orders);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.json(err);
   }
 };
@@ -57,7 +57,7 @@ exports.postOrder = async (req, res, next) => {
   } catch (err) {
     //else rollback previous state
     await t.rollback();
-    console.log(err);
+    // console.log(err);
     res.json({ error: "Failed to create order" });
   }
 };

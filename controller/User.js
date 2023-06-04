@@ -17,8 +17,8 @@ exports.signup = (req, res, next) => {
         .then(res.status(200).json({ message: "signup successful" }))
         .catch((err) => res.status(401).json({ error: "Enter valid data" }));
     } else {
-      console.log(err);
-      //   res.status(401).json({ error: "Enter valid data", message: err });
+      // console.log(err);
+      res.status(401).json({ error: "Enter valid data", message: err });
     }
   });
 };

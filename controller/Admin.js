@@ -17,7 +17,7 @@ exports.postProduct = async (req, res, next) => {
       product,
     });
   } catch (error) {
-    console.error("Error creating product:", error);
+    // console.error("Error creating product:", error);
     res.status(500).json({
       error: "Failed to create product",
       message: error.message,
