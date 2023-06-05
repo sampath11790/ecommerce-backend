@@ -1,10 +1,16 @@
 const Producet = require("../Model/Producet");
 exports.getCart = async (req, res, next) => {
-  const cart = await req.user.getCart();
-  const product = await cart.getProducts({
-    attributes: { exclude: ["createdAt", "updatedAt", "cartId", "productId"] },
-  });
-  res.json(product);
+  try {
+    const cart = await req.user.getCart();
+    const product = await cart.getProducts({
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "cartId", "productId"],
+      },
+    });
+    res.json(product);
+  } catch (err) {
+    res.json({ error: "failed" });
+  }
 };
 exports.postCart = async (req, res, next) => {
   try {
