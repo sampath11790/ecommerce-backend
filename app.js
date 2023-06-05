@@ -31,10 +31,10 @@ const Orderitem = require("./Model/OrderItem");
 app.use(bodyparser.json({ extended: false }));
 app.use(helmet());
 app.use(cors());
-app.use((req, res, next) => {
-  console.log("req", req.body);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("req", req.body);
+//   next();
+// });
 
 app.use(UserRoute);
 app.use(CartRoute);

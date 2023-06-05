@@ -7,8 +7,10 @@ exports.getCart = async (req, res, next) => {
         exclude: ["createdAt", "updatedAt", "cartId", "productId"],
       },
     });
+
     res.json(product);
   } catch (err) {
+    // console.log(err);
     res.json({ error: "failed" });
   }
 };
